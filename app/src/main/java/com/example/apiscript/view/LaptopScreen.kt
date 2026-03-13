@@ -1,7 +1,9 @@
 package com.example.apiscript.view
 
+import SearchForPrice
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.apiscript.model.Laptop
 import com.example.apiscript.viewmodel.LaptopViewModel
 
 /**
@@ -44,6 +47,21 @@ fun LaptopScreen(
     // Crida automàtica quan s'obre la pantalla
     LaunchedEffect(Unit) {
         viewModel.carregarDades(apiKey)
+//        viewModel.addNewLaptop(Laptop(
+//            1,
+//            "companyia",
+//            "producte",
+//            "tipus",
+//            10.0f,
+//            "16x9",
+//            "CPu",
+//            "8GB",
+//            "512GB",
+//            "GPU",
+//            1000.0f
+//
+//
+//        ))
     }
 
     Scaffold(
@@ -82,13 +100,16 @@ fun LaptopScreen(
 
                 // En qualsevol altre cas, és a dir: tot ha funcionat bé, crearem una LazyColumn amb tantes Cards com Arcs hi hagi a dins de la resposta GET.
                 else -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(laptops) { laptop ->
-                            LaptopCard(laptop)
+                    Column {
+                        SearchForPrice(viewModel)
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(laptops) { laptop ->
+                                LaptopCard(laptop)
+                            }
                         }
                     }
                 }
