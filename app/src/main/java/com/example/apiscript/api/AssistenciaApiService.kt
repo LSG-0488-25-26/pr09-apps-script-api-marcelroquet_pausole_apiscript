@@ -2,7 +2,10 @@ package com.example.apiscript.api
 
 import com.example.apiscript.model.GetResponse
 import com.example.apiscript.model.Laptop
+import com.example.googleappsscriptapidemo.model.PostResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
@@ -22,12 +25,19 @@ interface AssistenciaApiService {
         @Query("type") type: String = "laptop"
     ): GetResponse<List<Laptop>>
 
+    @GET("exec")
+    suspend fun getLaptopsPerPreu(
+        @Query("apiKey") apiKey: String,
+        @Query("type") type: String = "laptop",
+        @Query("maxPrice") maxPrice: Int
+    ): GetResponse<List<Laptop>>
     /**
      * POST per registrar entrada/sortida
      * @author RIS
      */
-//    @POST("exec")
-//    suspend fun inserirFila(
-//        @Body body: PostRequest
-//    ): PostResponse
+    @POST("exec")
+    suspend fun afegirLaptop(
+        @Query("apiKey") apiKey: String,
+        @Body nouLaptop: Laptop
+    ): PostResponse
 }
