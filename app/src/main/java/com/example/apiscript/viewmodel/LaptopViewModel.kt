@@ -1,5 +1,8 @@
 package com.example.apiscript.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.apiscript.BuildConfig
 import com.example.apiscript.api.RetrofitInstance
 import com.example.apiscript.model.Laptop
+import com.example.apiscript.model.User
+import com.example.apiscript.sharedPreferences.SettingsRepository
 import com.example.googleappsscriptapidemo.model.PostRequest
 import com.example.googleappsscriptapidemo.model.PostResponse
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +19,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class LaptopViewModel: ViewModel() {
+class LaptopViewModel(
+    private val repository: SettingsRepository
+): ViewModel() {
     // Variables per a peticions GET
     private val _laptops = MutableStateFlow<List<Laptop>>(emptyList())
     val laptops: StateFlow<List<Laptop>> = _laptops.asStateFlow()
@@ -27,6 +34,7 @@ class LaptopViewModel: ViewModel() {
 
     private val _textPriceFilter = MutableLiveData(" ")
     val textPriceFilter = _textPriceFilter
+
 
 
     fun updatePrice(newPrice: Float) {
@@ -122,5 +130,69 @@ class LaptopViewModel: ViewModel() {
         } finally {
             _loading.value = false
         }
+    }
+
+    /*AUTH*/
+    var nombre by mutableStateOf("")
+        private set
+    var password by mutableStateOf("")
+        private set
+    var isCorrect by mutableStateOf(true)
+        private set
+
+    var nombreLog by mutableStateOf("")
+        private set
+    var passwordLog by mutableStateOf("")
+        private set
+    var isCorrectLog by mutableStateOf(true)
+        private set
+
+    fun updateNombre(newNombre: String) {
+        nombre = newNombre
+    }
+
+    fun updatePassword(newPassword: String) {
+        password = newPassword
+    }
+
+    fun updateNombreLog(newNombre: String) {
+        nombreLog = newNombre
+    }
+
+    fun updatePasswordLog(newPassword: String) {
+        passwordLog = newPassword
+    }
+
+    fun registrarUsuario() {
+        isCorrect = true
+
+        if (nombre.isBlank() || password.isBlank()) {
+            isCorrect = false
+            return
+        }
+        val listaActual = repository.obtenerUsuarios().toMutableList()
+
+        val existe = listaActual.any { it.name == nombre }
+        if (existe) {
+            isCorrect = false
+            return
+        }
+
+        val nuevoUsuario = User(nombre, password)
+        listaActual.add(nuevoUsuario)
+        repository.guardarUsuarios(listaActual)
+    }
+
+    fun loginUsuer(): Boolean
+    {
+        if (nombreLog.isBlank() || passwordLog.isBlank()) {
+            return false
+        }
+        val listaActual = repository.obtenerUsuarios().toMutableList()
+
+        val exist = listaActual.any { it.name == nombreLog && it.password == passwordLog }
+
+        return exist
+
     }
 }
