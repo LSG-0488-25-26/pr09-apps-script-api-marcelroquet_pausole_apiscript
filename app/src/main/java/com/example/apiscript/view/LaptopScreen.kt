@@ -1,6 +1,7 @@
 package com.example.apiscript.view
 
 import SearchForPrice
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,8 +10,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,7 +30,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.apiscript.model.Laptop
+import com.example.apiscript.nav.Routes
 import com.example.apiscript.viewmodel.LaptopViewModel
 
 /**
@@ -37,6 +47,7 @@ import com.example.apiscript.viewmodel.LaptopViewModel
 @Composable
 fun LaptopScreen(
     viewModel: LaptopViewModel = viewModel(),
+    navController: NavController,
     apiKey: String // Rep la API_KEY des de MainActivity.kt
 ) {
     // Subscripció a les variables públiques del VM
@@ -67,7 +78,19 @@ fun LaptopScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Laptops") }
+                title = { Text("Laptops") },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(Routes.FormScreen.route)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Form"
+                        )
+                    }
+                }
             )
         }
     ) { padding ->
