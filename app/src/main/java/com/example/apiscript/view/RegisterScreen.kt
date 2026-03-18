@@ -51,6 +51,13 @@ fun RegisterScreen(
             verticalArrangement = Arrangement.Center
         ) {
 
+            if (!correct)
+            {
+                Text("El registro no se ha completado", color = Color.Red)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             OutlinedTextField(
                 value = name,
                 onValueChange = { viewModel.updateNombre(it) },
@@ -71,7 +78,12 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { viewModel.registrarUsuario() },
+                onClick = {
+                    if (viewModel.registrarUsuario())
+                    {
+                        navController.navigate(Routes.LogInScreen.route)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .border(

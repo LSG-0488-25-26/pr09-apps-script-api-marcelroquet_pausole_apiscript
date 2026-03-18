@@ -30,7 +30,7 @@ fun EntryPoint(
             RegisterScreen(viewModel = viewModel, navController = navController)
         }
         composable(Routes.FormScreen.route) {
-            FormScreen(viewModel = viewModel, apiKey = apiKey, navController = navController)
+            FormScreen(viewModel = viewModel, navController = navController)
         }
     }
 }

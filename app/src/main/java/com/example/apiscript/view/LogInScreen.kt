@@ -38,7 +38,7 @@ fun LogInScreen( viewModel: LaptopViewModel,
                  navController: NavController) {
     val name = viewModel.nombreLog
     val password = viewModel.passwordLog
-    var correct = true
+    var correct = viewModel.isCorrectLog
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Login") }) }
@@ -50,6 +50,12 @@ fun LogInScreen( viewModel: LaptopViewModel,
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center
         ) {
+
+            if (!correct)
+            {
+                Text("Usuario o contraseña invalidos", color = Color.Red)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
                 value = name,

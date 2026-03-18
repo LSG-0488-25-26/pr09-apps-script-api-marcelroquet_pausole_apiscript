@@ -6,7 +6,7 @@ package com.example.apiscript.model
  * que les columnes originals que hi ha al document de Google Sheets
  */
 data class Laptop(
-    val Id : Int,
+    var Id : Int,
     val Company : String,
     val Product : String,
     val TypeName : String,

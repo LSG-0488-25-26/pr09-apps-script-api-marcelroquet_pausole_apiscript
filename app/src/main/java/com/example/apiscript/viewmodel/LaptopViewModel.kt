@@ -173,6 +173,8 @@ class LaptopViewModel(
     suspend fun addNewLaptop(newLaptop: Laptop): PostResponse {
         _loading.value = true
         return try {
+            val insertLaptop = newLaptop;
+            insertLaptop.Id = laptops.value.last().Id + 1
             val resposta = RetrofitInstance.api.afegirLaptop(BuildConfig.API_KEY, newLaptop)
 
             _missatgeResposta.value = resposta
@@ -226,35 +228,39 @@ class LaptopViewModel(
         passwordLog = newPassword
     }
 
-    fun registrarUsuario() {
+    fun registrarUsuario(): Boolean {
         isCorrect = true
 
         if (nombre.isBlank() || password.isBlank()) {
             isCorrect = false
-            return
+            return isCorrect
         }
         val listaActual = repository.obtenerUsuarios().toMutableList()
 
         val existe = listaActual.any { it.name == nombre }
         if (existe) {
             isCorrect = false
-            return
+            return isCorrect
         }
 
         val nuevoUsuario = User(nombre, password)
         listaActual.add(nuevoUsuario)
         repository.guardarUsuarios(listaActual)
+        return isCorrect
+
     }
 
     fun loginUsuer(): Boolean
     {
         if (nombreLog.isBlank() || passwordLog.isBlank()) {
+            isCorrectLog = false
             return false
         }
         val listaActual = repository.obtenerUsuarios().toMutableList()
 
         val exist = listaActual.any { it.name == nombreLog && it.password == passwordLog }
 
+        isCorrectLog = true
         return exist
 
     }
