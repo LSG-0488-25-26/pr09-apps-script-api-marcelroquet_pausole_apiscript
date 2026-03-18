@@ -35,6 +35,69 @@ class LaptopViewModel(
     private val _textPriceFilter = MutableLiveData(" ")
     val textPriceFilter = _textPriceFilter
 
+    private val _id = MutableStateFlow("")
+    val id: StateFlow<String> = _id
+    fun onIdChange(value: String) {
+        _id.value = value
+    }
+
+    private val _company = MutableStateFlow("")
+    val company: StateFlow<String> = _company
+    fun onCompanyChange(value: String) {
+        _company.value = value
+    }
+
+    private val _product = MutableStateFlow("")
+    val product: StateFlow<String> = _product
+    fun onProductChange(value: String) {
+        _product.value = value
+    }
+
+    private val _typeName = MutableStateFlow("")
+    val typeName: StateFlow<String> = _typeName
+    fun onTypeNameChange(value: String) {
+        _typeName.value = value
+    }
+
+    private val _inches = MutableStateFlow("")
+    val inches: StateFlow<String> = _inches
+    fun onInchesChange(value: String) {
+        _inches.value = value
+    }
+    private val _screenResolution = MutableStateFlow("")
+    val screenResolution: StateFlow<String> = _screenResolution
+    fun onScreenResolutionChange(value: String) {
+        _screenResolution.value = value
+    }
+
+    private val _cpu = MutableStateFlow("")
+    val cpu: StateFlow<String> = _cpu
+    fun onCpuChange(value: String) {
+        _cpu.value = value
+    }
+
+    private val _ram = MutableStateFlow("")
+    val ram: StateFlow<String> = _ram
+    fun onRamChange(value: String) {
+        _ram.value = value
+    }
+
+    private val _memory = MutableStateFlow("")
+    val memory: StateFlow<String> = _memory
+    fun onMemoryChange(value: String) {
+        _memory.value = value
+    }
+    private val _gpu = MutableStateFlow("")
+    val gpu: StateFlow<String> = _gpu
+    fun onGpuChange(value: String) {
+        _gpu.value = value
+    }
+
+    private val _price = MutableStateFlow("")
+    val price: StateFlow<String> = _price
+    fun onPriceChange(value: String) {
+        _price.value = value
+    }
 
 
     fun updatePrice(newPrice: Float) {
