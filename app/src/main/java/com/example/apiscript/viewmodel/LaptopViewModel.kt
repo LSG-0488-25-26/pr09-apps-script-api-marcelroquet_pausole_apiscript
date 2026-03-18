@@ -25,6 +25,7 @@ class LaptopViewModel(
     // Variables per a peticions GET
     private val _laptops = MutableStateFlow<List<Laptop>>(emptyList())
     val laptops: StateFlow<List<Laptop>> = _laptops.asStateFlow()
+    private val _allLaptops = MutableStateFlow<List<Laptop>>(emptyList())
 
     private val _error = MutableStateFlow<String?>(null)
     val error = _error.asStateFlow()
@@ -136,6 +137,7 @@ class LaptopViewModel(
                 val resposta = RetrofitInstance.api.getDadesLaptop(apiKey)
                 if (resposta.status == "ok" && resposta.data != null) {
                     _laptops.value = resposta.data
+                    _allLaptops.value = resposta.data
                     println("Dades rebudes: ${resposta.data}")
                 } else {
                     _error.value = resposta.error ?: "Error desconegut"
@@ -174,7 +176,7 @@ class LaptopViewModel(
         _loading.value = true
         return try {
             val insertLaptop = newLaptop;
-            insertLaptop.Id = laptops.value.last().Id + 1
+            insertLaptop.Id = _allLaptops.value.last().Id + 1
             val resposta = RetrofitInstance.api.afegirLaptop(BuildConfig.API_KEY, newLaptop)
 
             _missatgeResposta.value = resposta

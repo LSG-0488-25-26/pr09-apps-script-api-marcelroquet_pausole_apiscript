@@ -4,12 +4,14 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.apiscript.model.Laptop
@@ -26,7 +28,6 @@ fun FormScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val id by viewModel.id.collectAsState()
     val company by viewModel.company.collectAsState()
     val product by viewModel.product.collectAsState()
     val typeName by viewModel.typeName.collectAsState()
@@ -67,16 +68,12 @@ fun FormScreen(
 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedTextField(
-                        value = id,
-                        onValueChange = { viewModel.onIdChange(it) },
-                        label = { Text("Id") },
-                        modifier = Modifier.weight(1f)
-                    )
-                    OutlinedTextField(
                         value = inches,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         onValueChange = { viewModel.onInchesChange(it) },
                         label = { Text("Inches") },
                         modifier = Modifier.weight(1f)
+
                     )
                 }
 
@@ -140,6 +137,7 @@ fun FormScreen(
                     )
                     OutlinedTextField(
                         value = price,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         onValueChange = { viewModel.onPriceChange(it) },
                         label = { Text("Price") },
                         modifier = Modifier.weight(1f)
@@ -150,7 +148,7 @@ fun FormScreen(
                     onClick = {
                         scope.launch {
                             val laptop = Laptop(
-                                Id = id.toIntOrNull() ?: 0,
+                                0,
                                 Company = company,
                                 Product = product,
                                 TypeName = typeName,

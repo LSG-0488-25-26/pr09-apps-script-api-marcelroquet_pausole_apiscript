@@ -43,7 +43,12 @@ fun SearchForPrice(viewModel: LaptopViewModel ) {
         Button(
             onClick = {
                 val finalPrice = price.toInt()
-                viewModel.carregarDadesMaxPrice(BuildConfig.API_KEY, finalPrice)
+                if (finalPrice < 170)
+                {
+                    viewModel.carregarDades(BuildConfig.API_KEY)
+                } else {
+                    viewModel.carregarDadesMaxPrice(BuildConfig.API_KEY, finalPrice)
+                }
             }
         ) {
             Text("Filtrar")
